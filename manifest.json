@@ -3,9 +3,6 @@
   "name": "Youtube Extensions",
   "description": "the Youtube Extensions for preview thumbnail, playlistalizing channel's all videos",
   "version": "0.1.0",
-  "action": {
-    "default_popup": "popup.html"
-  },
   "icons": {
     "16": "images/icons/icon-16.png",
     "32": "images/icons/icon-32.png",

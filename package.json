@@ -1,8 +1,0 @@
-{
-  "name": "youtube-extensions",
-  "description": "the Youtube Extensions for preview thumbnail, playlistalizing channel's all videos",
-  "version": "0.1.0",
-  "devDependencies": {
-    "chrome-types": "^0.1.201"
-  }
-}
