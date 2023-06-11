@@ -13,6 +13,10 @@
     {
       "js": ["scripts/preview_thumbnail.js"],
       "matches": ["https://www.youtube.com/watch?v=*"]
+    },
+    {
+      "js": ["scripts/play_all_in_channel.js"],
+      "matches": ["https://www.youtube.com/*/videos"]
     }
   ]
 }
