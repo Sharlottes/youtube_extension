@@ -70,10 +70,7 @@ retryInterval(async () => {
   const checkbox = createPreviewCheckbox();
   //@ts-ignore
   checkbox.style = "margin-left:8px";
-  checkbox.className = justAButton.className.replace(
-    /outline|tonal|filled/,
-    checkbox.checked ? "tonal" : "outline"
-  );
+  checkbox.className = justAButton.className.replace(/tonal|filled/, "outline");
   checkbox.addEventListener("click", () => {
     checkbox.checked = !checkbox.checked;
     checkbox.className = checkbox.className.replace(
