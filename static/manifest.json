@@ -12,7 +12,8 @@
   "content_scripts": [
     {
       "js": ["src/content_scripts/preview_thumbnail.js"],
-      "matches": ["https://www.youtube.com/watch?v=*"]
+      "matches": ["https://www.youtube.com/watch?v=*"],
+      "run_at": "document_end"
     }
   ]
 }
