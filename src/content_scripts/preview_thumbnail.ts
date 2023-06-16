@@ -1,8 +1,8 @@
+import { crawlElements } from "../utils/crawlElements";
 import { retryInterval } from "../utils/retryInterval";
 
 function createPreviewCheckbox() {
-  const copiedCheckbox: HTMLButtonElement & { checked?: boolean } =
-    document.createElement("button");
+  const copiedCheckbox: HTMLButtonElement & { checked?: boolean } = document.createElement("button");
   copiedCheckbox.innerText = "See Thumbnail";
   return copiedCheckbox;
 }
@@ -14,9 +14,7 @@ function createThumbnailImg() {
     const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
     thumbnailImg.setAttribute("src", thumbnailUrl);
     //@ts-ignore
-    thumbnailImg.style = `position:absolute;bottom:0;${
-      opened ? "display:block" : "display:none"
-    }`;
+    thumbnailImg.style = `position:absolute;bottom:0;${opened ? "display:block" : "display:none"}`;
   }
 
   const updatefulThumbnailImg: HTMLImageElement & {
@@ -25,15 +23,11 @@ function createThumbnailImg() {
   return updatefulThumbnailImg;
 }
 
-retryInterval(async () => {
-  const ownerContainer = document.getElementById("owner");
-  if (!ownerContainer) throw new Error("failed to get owner element");
-  const justAButton = ownerContainer.getElementsByTagName("button")[0];
-  if (!justAButton) throw new Error("failed to get button in owner element");
-  const playerContainer = document.querySelector("#ytd-player > #container");
-  if (!playerContainer)
-    throw new Error("failed to get button in owner element");
-
+crawlElements(
+  { name: "ownerContainer", selector: "#owner" },
+  { name: "justAButton", selector: "button" },
+  { name: "playerContainer", selector: "#ytd-player > #container" }
+).then(({ ownerContainer, justAButton, playerContainer }) => {
   const thumbnailImg = createThumbnailImg();
   playerContainer.appendChild(thumbnailImg);
 
@@ -43,13 +37,10 @@ retryInterval(async () => {
   checkbox.className = justAButton.className.replace(/tonal|filled/, "outline");
   checkbox.addEventListener("click", () => {
     checkbox.checked = !checkbox.checked;
-    checkbox.className = checkbox.className.replace(
-      /outline|tonal/,
-      checkbox.checked ? "tonal" : "outline"
-    );
+    checkbox.className = checkbox.className.replace(/outline|tonal/, checkbox.checked ? "tonal" : "outline");
     thumbnailImg.update(checkbox.checked);
   });
   //@ts-ignore
   ownerContainer.style += ";display:flex;";
   ownerContainer.appendChild(checkbox);
-}, 1000);
+});
