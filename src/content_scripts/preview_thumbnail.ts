@@ -16,7 +16,7 @@ function createThumbnailImg() {
     const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
     thumbnailImg.setAttribute("src", thumbnailUrl);
     //@ts-ignore
-    thumbnailImg.style = `position:absolute;bottom:0;${opened ? "display:block" : "display:none"}`;
+    thumbnailImg.style = `z-index:99;position:absolute;bottom:0;${opened ? "display:block" : "display:none"}`;
   }
 
   const updatefulThumbnailImg: HTMLImageElement & {
