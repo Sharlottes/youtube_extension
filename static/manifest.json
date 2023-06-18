@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Youtube Extensions",
-  "description": "the Youtube Extensions for preview thumbnail, playlistalizing channel's all videos",
-  "version": "0.1.0",
+  "description": "the Youtube Extensions for preview thumbnail, provide youtube-shorts tool",
+  "version": "0.2.0",
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",
@@ -13,6 +13,11 @@
     {
       "js": ["src/content_scripts/preview_thumbnail.js"],
       "matches": ["https://www.youtube.com/watch?v=*"],
+      "run_at": "document_end"
+    },
+    {
+      "js": ["src/content_scripts/shorts/volume_scaler.js"],
+      "matches": ["https://www.youtube.com/shorts/*"],
       "run_at": "document_end"
     }
   ]

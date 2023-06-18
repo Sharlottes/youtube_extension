@@ -1,5 +1,4 @@
 import { crawlElements } from "../utils/crawlElements";
-import { retryInterval } from "../utils/retryInterval";
 
 function createPreviewCheckbox() {
   const copiedCheckbox: HTMLButtonElement & { checked?: boolean } = document.createElement("button");
@@ -25,8 +24,8 @@ function createThumbnailImg() {
 
 crawlElements(
   { name: "ownerContainer", selector: "#owner" },
-  { name: "justAButton", selector: "button" },
-  { name: "playerContainer", selector: "#ytd-player > #container" }
+  { name: "justAButton", selector: "button", is: HTMLButtonElement },
+  { name: "playerContainer", selector: "#ytd-player > #container", is: HTMLDivElement }
 ).then(({ ownerContainer, justAButton, playerContainer }) => {
   const thumbnailImg = createThumbnailImg();
   playerContainer.appendChild(thumbnailImg);

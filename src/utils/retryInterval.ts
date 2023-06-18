@@ -1,6 +1,14 @@
 import { delay } from "./delay";
 
-export const retryInterval = (callback: () => Promise<void>, ms: number, max_try = 10) =>
+export interface RetryIntervalOptions {
+  max_try?: number;
+  mute?: boolean;
+}
+export const retryInterval = (
+  callback: () => Promise<void>,
+  ms: number,
+  { max_try = 10, mute = false }: RetryIntervalOptions = { max_try: 10, mute: false }
+) =>
   new Promise<void>(async (res, rej) => {
     for (let i = 0; i < max_try; i++) {
       try {
@@ -8,7 +16,7 @@ export const retryInterval = (callback: () => Promise<void>, ms: number, max_try
         res();
         return;
       } catch (e) {
-        console.error(e);
+        if (!mute) console.error(e);
         await delay(ms);
       }
     }
