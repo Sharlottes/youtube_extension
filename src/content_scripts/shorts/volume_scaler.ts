@@ -57,6 +57,8 @@ function start() {
       retryOptions: { mute: true, max_try: 100 },
     }
   ).then(({ video, volumeButton }) => {
+    if (volumeButton.parentElement?.querySelector("input")) return;
+
     const volumeIcon = volumeIconCache.cloneNode(true) as Element;
     volumeButton.removeChild(volumeButton.firstElementChild!);
     volumeButton.appendChild(volumeIcon);
