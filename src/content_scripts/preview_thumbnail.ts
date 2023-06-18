@@ -1,5 +1,8 @@
 import { crawlElements } from "../utils/crawlElements";
 
+const buttonStyleClasses =
+  "yt-spec-button-shape-next yt-spec-button-shape-next--outline yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m";
+
 function createPreviewCheckbox() {
   const copiedCheckbox: HTMLButtonElement & { checked?: boolean } = document.createElement("button");
   copiedCheckbox.innerText = "See Thumbnail";
@@ -24,16 +27,15 @@ function createThumbnailImg() {
 
 crawlElements(
   { name: "ownerContainer", selector: "#owner" },
-  { name: "justAButton", selector: "button", is: HTMLButtonElement },
   { name: "playerContainer", selector: "#ytd-player > #container", is: HTMLDivElement }
-).then(({ ownerContainer, justAButton, playerContainer }) => {
+).then(({ ownerContainer, playerContainer }) => {
   const thumbnailImg = createThumbnailImg();
   playerContainer.appendChild(thumbnailImg);
 
   const checkbox = createPreviewCheckbox();
   //@ts-ignore
   checkbox.style = "margin-left:8px";
-  checkbox.className = justAButton.className.replace(/tonal|filled/, "outline");
+  checkbox.className = buttonStyleClasses.replace(/tonal|filled/, "outline");
   checkbox.addEventListener("click", () => {
     checkbox.checked = !checkbox.checked;
     checkbox.className = checkbox.className.replace(/outline|tonal/, checkbox.checked ? "tonal" : "outline");
