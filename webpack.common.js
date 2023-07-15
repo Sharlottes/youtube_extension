@@ -1,42 +1,37 @@
+//@ts-check
+
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const manifest = require("./static/manifest.json");
 
-const getScripts = () => {
+const entry = (() => {
+  /** @type {Record<string, string>} */
   const resobj = {};
+  /** @type {['content_scripts']} */
   const categories = ["content_scripts"];
   for (const category of categories) {
-    const scripts = manifest[category]
-      .map(({ js: scripts }) =>
-        scripts.map((script) => [
-          "./" + script.replace(".js", ""),
-          "./" + script.replace(".js", ""),
-        ])
-      )
-      .flat();
-    Object.assign(resobj, Object.fromEntries(scripts));
+    for (const { js: scripts = [], css: styles = [] } of manifest[category]) {
+      for (const script of scripts) {
+        resobj[script.replace(".js", "-js")] = "./" + script.replace(".js", ".ts");
+      }
+      for (const style of styles) {
+        resobj[style.replace(".css", "-css")] = "./" + style.replace(".css", ".scss");
+      }
+    }
   }
-  return resobj;
-};
 
+  console.log(resobj);
+
+  return resobj;
+})();
+
+/** @type { import("webpack").Configuration} */
 module.exports = {
-  entry: getScripts(),
-  module: {
-    rules: [
-      {
-        test: /\.(j|t)s$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: "swc-loader",
-        },
-      },
-    ],
-  },
-  resolve: {
-    extensions: [".ts", ".js"],
-  },
+  entry,
   output: {
-    filename: "[name].js",
+    filename: (pathdata) => {
+      return path.join(String(pathdata.chunk?.id).replace("-js", ".js").replace("-css", ".css"));
+    },
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
@@ -45,4 +40,20 @@ module.exports = {
       patterns: [{ from: "static" }],
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: "swc-loader",
+      },
+      {
+        test: /.*\.scss$/,
+        use: ["sass-loader"],
+      },
+    ],
+  },
+  resolve: {
+    extensions: [".ts", ".scss"],
+  },
 };

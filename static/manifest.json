@@ -16,7 +16,8 @@
       "run_at": "document_end"
     },
     {
-      "js": ["src/content_scripts/shorts/volume_scaler.js"],
+      "css": ["src/content_scripts/shorts/time_controller.css"],
+      "js": ["src/content_scripts/shorts/volume_scaler.js", "src/content_scripts/shorts/time_controller.js"],
       "matches": ["https://www.youtube.com/shorts/*"],
       "run_at": "document_end"
     }
